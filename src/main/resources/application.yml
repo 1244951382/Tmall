@@ -1,0 +1,33 @@
+#后端服务的端口号
+server:
+  port: 9001
+
+#配置MySQL数据库驱动
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #配置MySQL的url
+    url: jdbc:mysql://localhost:3306/foodieShop?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root   #配置数据库的用户名
+    password: root   #配置数据库的密码
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  #解决springboot与Swagger-ui版本不加绒的问题
+
+#扫描所有mybatis的xml文件
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  #mybatis日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# Mybatis-Plus 的日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#文件的保存地址
+files:
+  upload:
+    path: D:/Work/springboot2/src/main/resources/files/
