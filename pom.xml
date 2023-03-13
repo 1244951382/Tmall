@@ -8,11 +8,11 @@
         <version>2.7.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.Charon</groupId>
-    <artifactId>springboot2</artifactId>
+    <groupId>com.Charon.Tmall</groupId>
+    <artifactId>Tmall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot2</name>
-    <description>springboot2</description>
+    <name>Tmall</name>
+    <description>Tmall project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -101,6 +101,12 @@
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>3.10.3</version>
+        </dependency>
+
+        <!--    redis    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 
