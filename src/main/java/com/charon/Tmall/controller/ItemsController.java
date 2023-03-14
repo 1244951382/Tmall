@@ -1,11 +1,15 @@
 package com.charon.Tmall.controller;
 
 
+import cn.hutool.core.lang.TypeReference;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.charon.Tmall.common.Result;
 import com.charon.Tmall.entity.Items;
 import com.charon.Tmall.service.IItemsService;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,6 +29,11 @@ public class ItemsController {
 
     @Resource
     private IItemsService itemsService;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
+
+    public static final String ITEMS_KEY = "ITEMS_PAGE";
 
     /**
      * 新增或者更新
@@ -70,7 +79,17 @@ public class ItemsController {
      */
     @GetMapping
     public Result findAll() {
-        return Result.success(itemsService.list());
+        String jsonStr = stringRedisTemplate.opsForValue().get(ITEMS_KEY);
+        List<Items> items;
+        if (StrUtil.isBlank(jsonStr)) {
+            items = itemsService.list();
+            stringRedisTemplate.opsForValue().set(ITEMS_KEY, JSONUtil.toJsonStr(items));
+        }
+        else {
+            items = JSONUtil.toBean(jsonStr, new TypeReference<List<Items>>() {
+            }, true);
+        }
+        return Result.success(items);
     }
 
     /**
@@ -112,5 +131,7 @@ public class ItemsController {
     public Result findRandItems() {
         return Result.success(itemsService.findRandItems());
     }
+
+
 }
 
